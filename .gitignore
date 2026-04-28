@@ -29,5 +29,8 @@ examples/exp*
 *.wav
 *.jsonl
 
-# Nested Next.js app — has its own git repo (imanihosting/taurai-languange)
-bantu-nextjs/
+# Next.js app's build artefacts and runtime state. The app itself lives in
+# bantu-nextjs/ and is tracked here. Its own .gitignore handles node_modules,
+# .next, generated/prisma, etc., so we only need top-level ignores.
+bantu-nextjs/.env
+bantu-nextjs/.env.local
