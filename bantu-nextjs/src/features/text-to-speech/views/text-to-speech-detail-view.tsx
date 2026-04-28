@@ -45,6 +45,7 @@ export function TextToSpeechDetailView({
   const defaultValues: TTSFormValues = {
     text: data.text,
     voiceId: resolvedVoiceId,
+    language: data.language ?? "",
     numStep: data.numStep ?? 32,
     guidanceScale: data.guidanceScale ?? 2.0,
     speed: data.speed ?? 1.0,

@@ -172,6 +172,9 @@ model Generation {
   guidanceScale     Float?
   speed             Float?
   duration          Float?
+  // Per-generation language override (BCP-47 tag). When null, the voice's own
+  // language is used.
+  language          String?
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

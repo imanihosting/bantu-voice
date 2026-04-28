@@ -1,11 +1,9 @@
 /**
- * Languages supported by Meta MMS-TTS.
+ * Languages exposed in the language picker.
  *
  * Each entry maps a BCP-47 tag (stored on the Voice model) to a human-readable
- * label shown in the language picker. The language subtag (before the first "-")
- * is sent to the MMS-TTS server as `language_id`.
- *
- * Only languages with verified MMS-TTS models on HuggingFace are listed.
+ * label shown in the UI. The language subtag (before the first "-") is sent to
+ * the BantuVoice TTS server as `language_id`.
  */
 
 export type LanguageRegion =
@@ -24,8 +22,14 @@ export interface SupportedLanguage {
 
 export const SUPPORTED_LANGUAGES: readonly SupportedLanguage[] = [
   // --- Southern Africa ---
+  { value: "zu-ZA", label: "Zulu", region: "southern-africa" },
+  { value: "xh-ZA", label: "Xhosa", region: "southern-africa" },
+  { value: "af-ZA", label: "Afrikaans", region: "southern-africa" },
+  { value: "nso-ZA", label: "Sepedi (Northern Sotho)", region: "southern-africa" },
+  { value: "tn-ZA", label: "Tswana", region: "southern-africa" },
   { value: "sn-ZW", label: "Shona", region: "southern-africa" },
   { value: "ts-ZA", label: "Xitsonga", region: "southern-africa" },
+  { value: "ny-MW", label: "Chichewa", region: "southern-africa" },
 
   // --- East Africa ---
   { value: "sw-TZ", label: "Swahili", region: "east-africa" },
@@ -38,6 +42,7 @@ export const SUPPORTED_LANGUAGES: readonly SupportedLanguage[] = [
   // --- West Africa ---
   { value: "yo-NG", label: "Yoruba", region: "west-africa" },
   { value: "ha-NG", label: "Hausa", region: "west-africa" },
+  { value: "ig-NG", label: "Igbo", region: "west-africa" },
 
   // --- Common ---
   { value: "en-US", label: "English", region: "common" },

@@ -47,6 +47,8 @@ export const generationsRouter = createTRPCRouter({
       z.object({
         text: z.string().min(1).max(TEXT_MAX_LENGTH),
         voiceId: z.string().min(1),
+        // BCP-47 tag (e.g. "zu-ZA") to override the voice's own language.
+        language: z.string().min(1).optional(),
         numStep: z.number().int().min(4).max(64).default(32),
         guidanceScale: z.number().min(0).max(4).default(2.0),
         speed: z.number().min(0.25).max(2).default(1.0),
@@ -84,11 +86,12 @@ export const generationsRouter = createTRPCRouter({
         });
       }
 
+      const effectiveLanguageBcp47 = input.language ?? voice.language;
       const { data, error } = await bantuvoice.POST("/generate", {
         body: {
           prompt: input.text,
           voice_key: voice.r2ObjectKey,
-          language_id: getLanguageId(voice.language),
+          language_id: getLanguageId(effectiveLanguageBcp47),
           num_step: input.numStep,
           guidance_scale: input.guidanceScale,
           speed: input.speed,
@@ -100,6 +103,7 @@ export const generationsRouter = createTRPCRouter({
       console.log("Generation started", {
         orgId: ctx.orgId,
         voiceId: input.voiceId,
+        language: effectiveLanguageBcp47,
         textLength: input.text.length,
       });
 
@@ -128,6 +132,7 @@ export const generationsRouter = createTRPCRouter({
             text: input.text,
             voiceName: voice.name,
             voiceId: voice.id,
+            language: input.language,
             numStep: input.numStep,
             guidanceScale: input.guidanceScale,
             speed: input.speed,
@@ -198,6 +203,7 @@ export const generationsRouter = createTRPCRouter({
           .min(1)
           .max(BATCH_MAX_PARAGRAPHS),
         voiceId: z.string().min(1),
+        language: z.string().min(1).optional(),
         numStep: z.number().int().min(4).max(64).default(32),
         guidanceScale: z.number().min(0).max(4).default(2.0),
         speed: z.number().min(0.25).max(2).default(1.0),
@@ -242,11 +248,12 @@ export const generationsRouter = createTRPCRouter({
         if (!text) continue;
 
         try {
+          const effectiveLanguageBcp47 = input.language ?? voice.language;
           const { data, error } = await bantuvoice.POST("/generate", {
             body: {
               prompt: text,
               voice_key: voice.r2ObjectKey,
-              language_id: getLanguageId(voice.language),
+              language_id: getLanguageId(effectiveLanguageBcp47),
               num_step: input.numStep,
               guidance_scale: input.guidanceScale,
               speed: input.speed,
@@ -267,6 +274,7 @@ export const generationsRouter = createTRPCRouter({
               text,
               voiceName: voice.name,
               voiceId: voice.id,
+              language: input.language,
               numStep: input.numStep,
               guidanceScale: input.guidanceScale,
               speed: input.speed,

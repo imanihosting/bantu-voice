@@ -12,6 +12,8 @@ import { useAppForm } from "@/hooks/use-app-form";
 const ttsFormSchema = z.object({
   text: z.string().min(1, "Please enter some text"),
   voiceId: z.string().min(1, "Please select a voice"),
+  // BCP-47 tag (e.g. "zu-ZA"). Empty string = use the voice's own language.
+  language: z.string(),
   numStep: z.number().int().min(4).max(64),
   guidanceScale: z.number().min(0).max(4),
   speed: z.number().min(0.25).max(2),
@@ -24,6 +26,7 @@ export type TTSFormValues = z.infer<typeof ttsFormSchema>;
 export const defaultTTSValues: TTSFormValues = {
   text: "",
   voiceId: "",
+  language: "",
   numStep: 32,
   guidanceScale: 2.0,
   speed: 1.0,
@@ -58,6 +61,7 @@ export function TextToSpeechForm({
         const data = await createMutation.mutateAsync({
           text: value.text.trim(),
           voiceId: value.voiceId,
+          language: value.language || undefined,
           numStep: value.numStep,
           guidanceScale: value.guidanceScale,
           speed: value.speed,
