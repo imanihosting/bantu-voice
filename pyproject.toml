@@ -41,6 +41,11 @@ dependencies = [
     "numpy",
     "soundfile",
     "librosa",
+    "fastapi>=0.110",
+    "uvicorn[standard]>=0.27",
+    "python-multipart>=0.0.9",
+    "boto3>=1.34",
+    "python-dotenv>=1.0",
 ]
 
 [project.optional-dependencies]
@@ -58,6 +63,7 @@ eval = [
 bantuvoice-infer = "bantuvoice.cli.infer:main"
 bantuvoice-infer-batch = "bantuvoice.cli.infer_batch:main"
 bantuvoice-demo = "bantuvoice.cli.demo:main"
+bantuvoice-serve = "bantuvoice.cli.serve:main"
 
 [project.urls]
 Homepage = "https://github.com/k2-fsa/OmniVoice"
